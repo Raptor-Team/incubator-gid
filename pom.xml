@@ -7,10 +7,10 @@
 
 	<name>Raptor GID</name>
 	<description>Global sequence generator.</description>
-	<url>http://git.oschina.net/f150/raptor-gid</url>
+	<url>https://github.com/Raptor-Team/raptor-gid</url>
 
 	<scm>
-		<url>https://git.oschina.net/f150/raptor-gid.git</url>
+		<url>https://github.com/Raptor-Team/raptor-gid.git</url>
 	</scm>
 
 	<licenses>
@@ -101,20 +101,6 @@
     </dependency>
   </dependencies>
 
-	<!-- Snapshot repository -->
-	<repositories>
-		<repository>
-			<id>snapshots-repo</id>
-			<url>http://192.168.1.22:8081/nexus/content/repositories/AL-Snapshot/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<build>
 		<resources>
 			<resource>
@@ -162,148 +148,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>disable-java8-doclint</id>
-			<activation>
-				<jdk>[1.8,)</jdk>
-			</activation>
-			<properties>
-				<additionalparam>-Xdoclint:none</additionalparam>
-			</properties>
-		</profile>
-
-		<profile>
-			<id>deploy_to_local</id>
-			<activation>
-				<property>
-					<name>deployTo</name>
-					<value>local</value>
-				</property>
-			</activation>
-			<!--<distributionManagement>-->
-			<!--<repository>-->
-			<!--<uniqueVersion>false</uniqueVersion>-->
-			<!--<id>raptor-nexus</id>-->
-			<!--<name>public-distribution</name>-->
-			<!--<url>http://192.168.199.23:8081/repository/maven-releases/</url>-->
-			<!--</repository>-->
-			<!--<snapshotRepository>-->
-			<!--<uniqueVersion>true</uniqueVersion>-->
-			<!--<id>raptor-nexus</id>-->
-			<!--<name>snapshot-distribution</name>-->
-			<!--<url>http://192.168.199.23:8081/repository/maven-snapshots/</url>-->
-			<!--</snapshotRepository>-->
-			<!--</distributionManagement>-->
-
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>deploy_to_fz</id>
-			<activation>
-				<property>
-					<name>deployTo</name>
-					<value>fz</value>
-				</property>
-			</activation>
-			<distributionManagement>
-				<snapshotRepository>
-					<uniqueVersion>true</uniqueVersion>
-					<id>AL-Snapshot</id>
-					<name>fz-snapshot-distribution</name>
-					<url>http://192.168.1.22:8081/nexus/content/repositories/AL-Snapshot/</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-
-		<profile>
-			<id>deploy_to_maven_central</id>
-			<activation>
-				<property>
-					<name>deployTo</name>
-					<value>central</value>
-				</property>
-			</activation>
-
-			<distributionManagement>
-				<snapshotRepository>
-					<id>ossrh</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-					<!--<uniqueVersion>false</uniqueVersion>-->
-				</snapshotRepository>
-				<repository>
-					<id>ossrh</id>
-					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-				</repository>
-			</distributionManagement>
-
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.4</version>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<aggregate>true</aggregate>
-							<charset>${project.build.sourceEncoding}</charset>
-							<encoding>${project.build.sourceEncoding}</encoding>
-							<docencoding>${project.build.sourceEncoding}</docencoding>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
