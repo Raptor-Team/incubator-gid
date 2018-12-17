@@ -1,0 +1,130 @@
+-------------------------- --------------
+ Raptor-gid 0.0.2 Release Note  
+-----------------------------------------
+
+What is Raptor-gid?
+=====================
+Raptor-gid是在Beehive研发过程中衍生出的全局序列服务，可完全替代使用数据库产生序列的传统方式，
+尤其是在分布式系统中，全局序列是不可或缺的。
+
+
+Features
+=====================
+相比于数据库产生序列的传统方式，Raptor-gid具备全局唯一、高可用、高性能、低消耗以及易于使用等特点。
+
+0、全局唯一
+与数据库生产序列的方式不同，Raptor-gid提供的是全局唯一的序列生产能力，而传统数据库方式无法优雅的
+实现多台数据库序列的全局唯一。
+
+1、高可用
+Raptor-gid提供了2种序列生成机制——基于本地和远程运算，本地运算则与
+业务应用“同生共死”，远程运算则依赖zookeeper集群自身的高可用特性。
+
+基于本地运算生产序列
+----APP host-----------
+|     0. get nextId
+|     1. cache  N seq
+|     2. generate seq 
+|     3. local compute
+------------------------
+
+基于zookeeper生产序列
+----APP host----------                                                --ZK cluster--
+|    0. get nextId                                                   | zookeeper  
+|    1. cache  N seq                                                 | zookeeper  
+|    2. generate seq       <== 3. remote compute over the network==> | zookeeper  
+------------------------                                             --------------
+
+2、高性能
+基于本地运算生产序列的速度自然不用多说，完全可以满足非常严苛的性能要求；基于zookeeper运算
+生产序列的速度比数据库序列快20%，加上内置的缓冲加速，其效率直逼本地运算。
+
+3、低消耗
+Raptor-gid对本地资源的占用极其有限，高负荷情况下CPU占用仅在5%以内；基于zookeeper的
+生成方式相对于传统数据库方式来说，无需依赖昂贵的数据库资源。
+
+4、易用
+Raptor-gid提供了极为简单的使用和配置方式，xxxseq.nextId()即可获取序列值，
+配置一个序列仅需如下几个参数，与oracle创建序列所需的参数类似：
+name 名称
+type 类型
+incr 增长值
+start 起始值
+cache 缓冲大小
+
+
+Getting Started
+======================
+1. Dependency 
+引入如下maven依赖
+<dependency>
+    <groupId>studio.raptor.gid</groupId>
+    <artifactId>raptor-gid</artifactId>
+    <version>x.x.x</version>
+</dependency>
+
+2. Configuration
+Raptor-gid提供了3中不同的序列类型，如下：
+---------------------------------------------------------------------- -------------------------  
+类型                             位数                有序           步长            运算模式        其他
+----------------------------------------------------------------------- ------------------------
+snowflake     二进制64位   粗略有序    不固定            本地         可反解
+ticktock      十进制19位   粗略有序    不固定            本地         可反解，与时间相关
+breadcrumb		--		  严格有序    固定              远端         可反解，可制造，依赖zookeeper
+
+可基于xml和编码两种方式进行序列定义：
+① xml
+默认加载配置文件名为sequence.xml,用户可自定义配置文件名
+......
+<breadcrumb incr="-2" start="1000" cache="100">
+       <seq>aid</seq>
+       <seq>bid</seq>
+       <seq>cid</seq>
+</breadcrumb>
+......
+
+② 编码
+// 定义custId序列
+new BreadcrumbDef() {
+
+    @Override
+    public long start() {
+        return 0;
+    }
+
+    @Override
+    public String name() {
+        return "test_breadcrumb_id";
+    }
+
+    @Override
+    public long incr() {
+        return 10;
+    }
+
+    @Override
+    public int cache() {
+        return 100;
+    }
+}
+
+3. Usage
+// 创建序列服务器
+/**
+ * @param String zkConnectString zk连接串
+ * @param String namespace zk操作的命名空间
+ * @param String configFilePath sequence配置文件路径
+ * @param String ip 序列服务器进程绑定的IP
+ * @param int port 序列服务器进程绑定的端口
+ */
+SequenceServer server = new SequenceServer(zkConnectString, namespace, configFilePath, ip, port);
+
+//configFilePath 中写入了配置的序列
+//通过add()方法动态添加序列
+server.add(new BreadcrumbDef() {
+	...
+});
+//获取custId对应的序列
+long custId = server.get("custId").nextId();
+
+更详尽内容请阅读使用手册。

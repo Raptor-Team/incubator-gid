@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://f150.oschina.io/raptor-gid/gid"
+  xsi:schemaLocation="http://f150.oschina.io/raptor-gid/gid http://f150.oschina.io/raptor-gid/gid.xsd">
+
+  <!--<breadcrumb name="breadcrumb1" incr="1"  start="1" cache="0" />-->
+  <breadcrumb name="breadcrumb2" incr="1" start="1" cache="10"/>
+  <!--<breadcrumb name="breadcrumb3" incr="-1" start="1" cache="0"/>-->
+  <!--<breadcrumb name="breadcrumb4" incr="-3" start="1"/>-->
+
+  <!--<snowflake name="snowflake1"/>-->
+  <!--<snowflake name="snowflake2" sequenceWidth="12" workerIdWidth="10"/>-->
+
+  <!--<ticktock name="ticktock1" sequenceWidth="4" workerIdWidth="3"/>-->
+</sequences>

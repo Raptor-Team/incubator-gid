@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://f150.oschina.io/raptor-gid/gid"
+  xsi:schemaLocation="http://f150.oschina.io/raptor-gid/gid http://f150.oschina.io/raptor-gid/gid.xsd">
+
+  <breadcrumb cache="2" incr="1" name="aid" start="1"/>
+  <breadcrumb cache="100" incr="11" name="bid" start="9999"/>
+  <breadcrumb cache="0" incr="-1" name="bid" start="9999"/>
+  <breadcrumb incr="-1" name="did" start="9999"/>
+
+  <!-- snowflake类型提供64位二进制粗略序、全局唯一、自增长的sequence,此类型不可有incr、start、cache等属性 -->
+  <snowflake name="eid"/>
+  <snowflake name="eid" sequenceWidth="12" workerIdWidth="10"/>
+
+  <ticktock name="fid" sequenceWidth="3" workerIdWidth="3"/>
+</sequences>

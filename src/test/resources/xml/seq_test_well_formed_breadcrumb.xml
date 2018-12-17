@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://f150.oschina.io/raptor-gid/gid"
+  xsi:schemaLocation="http://f150.oschina.io/raptor-gid/gid http://f150.oschina.io/raptor-gid/gid.xsd">
+
+  <breadcrumb cache="2" incr="1" name="breadcrumb1" start="1"/>
+  <breadcrumb cache="100" incr="11" name="breadcrumb2" start="9999"/>
+  <breadcrumb cache="0" incr="-1" name="breadcrumb3" start="9999"/>
+  <breadcrumb incr="-1" name="breadcrumb4" start="9999"/>
+</sequences>

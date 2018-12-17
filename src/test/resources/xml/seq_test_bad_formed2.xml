@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://f150.oschina.io/raptor-gid/gid"
+  xsi:schemaLocation="http://f150.oschina.io/raptor-gid/gid  http://f150.oschina.io/raptor-gid/gid.xsd">
+
+  <!-- cache值过大 -->
+  <breadcrumb cache="111111" incr="1" name="aid"/>
+
+</sequences>
