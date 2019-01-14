@@ -118,7 +118,9 @@ Raptor-gid是一个全局ID生成组件（Global ID），可以完全替代数�
 ## 获取序列
 
 # 路线图
-
+- 重构现有代码，去除xml配置
+- 引入Disruptor替代队列
+- 提供SpringBoot Starter，注解配置
 
 
 
